@@ -16,11 +16,22 @@ const listsSlice = createSlice({
                 state.activeList.id.push(listId);
             }
 
+        },
+        addList: (state, action) => {
+            if (action.payload.name.trim() === '') {
+                return;
+            }
+            const newList = {
+                id: crypto.randomUUID(),
+                ...action.payload,
+            };
+            state.lists.push(newList);
+            state.activeList.id.push(newList.id);
         }
 
     }
 })
 
 export const selectLists = state => state.lists;
-export const { toggleCheckboxList } = listsSlice.actions;         
+export const { toggleCheckboxList, addList } = listsSlice.actions;         
 export default listsSlice.reducer;
