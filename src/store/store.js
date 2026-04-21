@@ -9,4 +9,9 @@ export const store = configureStore({
     },
 });
 
-export default store;
+store.subscribe(() => {
+    const state = store.getState();
+    localStorage.setItem('tasks', JSON.stringify(state.tasks));
+    localStorage.setItem('lists', JSON.stringify(state.lists));
+    // console.log(store.getState());
+})

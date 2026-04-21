@@ -1,7 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {lists: [{id: 1, name: "Список 1"}, {id: 2, name: "Список 2"}, {id: 3, name: "Список 3"}], activeList: {id: [1, 2]}};
+const saveddLists = localStorage.getItem('lists');
 
+const initialState = saveddLists ? JSON.parse(saveddLists) : {
+    lists: [
+        // { id: 1, name: 'Список 1' },
+        // { id: 2, name: 'Список 2' },
+    ],
+    activeList: {
+        id: [],
+    }
+};
 const listsSlice = createSlice({
     name: 'lists',
     initialState,
@@ -27,11 +36,15 @@ const listsSlice = createSlice({
             };
             state.lists.push(newList);
             state.activeList.id.push(newList.id);
-        }
+        },
+        deleteList: (state, action) => {
+            state.lists = state.lists.filter(list => list.id !== action.payload.id);
+            state.activeList.id = state.activeList.id.filter(id => id !== action.payload.id);
+        },
 
     }
 })
 
 export const selectLists = state => state.lists;
-export const { toggleCheckboxList, addList } = listsSlice.actions;         
+export const { toggleCheckboxList, addList, deleteList } = listsSlice.actions;         
 export default listsSlice.reducer;

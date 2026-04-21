@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux";
-import { selectLists } from "../store/listsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectLists, deleteList } from "../store/listsSlice";
 
 
 const MainContent = () => {
   const lists = useSelector(selectLists);
+  const dispatch = useDispatch();
   const tasks = useSelector(state => state.tasks);
 
   return (
@@ -13,7 +14,12 @@ const MainContent = () => {
             <div key={list.id} className="m-auto w-full min-w-128  max-w-192 h-full bg-white flex flex-col">
                 <div className="py-2 px-4 border-b border-gray-300 flex items-center justify-between">
                     <h1>{list.name}</h1>
-                    <button>Меню</button>
+                    <button
+                        onClick={() => dispatch(deleteList({ id: list.id }))}
+                        className="p-1 rounded hover:bg-gray-200 "
+                    >
+                        Меню
+                        </button>
                 </div>
                 <button className="p-2 m-2 bg-gray-100 rounded hover:bg-gray-200 ">
                 Добавить задачу

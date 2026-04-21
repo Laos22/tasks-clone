@@ -13,12 +13,13 @@ const Sidebar = ({ isOpenSidebar }) => {
 
   return (
     <aside className={`bg-gray-100 border-r border-gray-300 overflow-y-auto ${isOpenSidebar ? 'w-64 p-4' : 'w-0'}`}>
+        {lists.lists.length > 0 &&
         <button 
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             onClick={() => alert('Добавление задачи')}>
         
             Добавить задачу
-        </button>
+        </button>}
       <nav className="mt-6">
         <ul>
             {lists.lists.map(list => (
