@@ -4,6 +4,7 @@ import { selectLists } from "../store/listsSlice";
 
 const MainContent = () => {
   const lists = useSelector(selectLists);
+  const tasks = useSelector(state => state.tasks);
 
   return (
     <main className="flex-1 p-4 overflow-x-auto flex items-center gap-4 ">
@@ -19,8 +20,9 @@ const MainContent = () => {
                 </button>
                 <div className="p-4 overflow-y-auto">
                     <ul>
-                        <li>Задача 1</li>
-                        <li>Задача 2</li>
+                        {tasks[0].tasks.filter(task => task.listID === list.id).map(task => (
+                            <li key={task.id}>{task.name}</li>
+                        ))}
                     </ul>
                 </div>
             </div>
