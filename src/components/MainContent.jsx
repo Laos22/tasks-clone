@@ -10,7 +10,7 @@ const MainContent = () => {
         {lists.lists.map(list => (
             lists.activeList.id.includes(list.id) &&
             <div className="m-auto w-full min-w-128  max-w-192 h-full bg-white flex flex-col">
-                <div className="p-2 border-b border-gray-300 flex items-center justify-between">
+                <div className="py-2 px-4 border-b border-gray-300 flex items-center justify-between">
                     <h1>{list.name}</h1>
                     <button>Меню</button>
                 </div>
