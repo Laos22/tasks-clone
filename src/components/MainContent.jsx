@@ -1,0 +1,34 @@
+import { useSelector } from "react-redux";
+import { selectLists } from "../store/listsSlice";
+
+
+const MainContent = () => {
+  const lists = useSelector(selectLists);
+
+  return (
+    <main className="flex-1 p-4 overflow-x-auto flex items-center gap-4 ">
+        {lists.lists.map(list => (
+            lists.activeList.id.includes(list.id) &&
+            <div className="m-auto w-full min-w-128  max-w-192 h-full bg-white flex flex-col">
+                <div className="p-2 border-b border-gray-300 flex items-center justify-between">
+                    <h1>{list.name}</h1>
+                    <button>Меню</button>
+                </div>
+                <button className="p-2 m-2 bg-gray-100 rounded hover:bg-gray-200 ">
+                Добавить задачу
+                </button>
+                <div className="p-4 overflow-y-auto">
+                    <ul>
+                        <li>Задача 1</li>
+                        <li>Задача 2</li>
+                        </ul>
+                </div>
+            </div>
+
+        ))}
+       
+    </main>
+  );
+};
+
+export default MainContent;
