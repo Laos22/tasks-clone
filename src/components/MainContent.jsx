@@ -1,38 +1,24 @@
 import { useSelector, useDispatch } from "react-redux";
 import { selectLists, deleteList } from "../store/listsSlice";
+import { useState, useRef } from "react";
+import { selectTasks } from "../store/tasksSlice";
+import { addTask } from "../store/tasksSlice";
+import ListTasks from "./ListTasks"; 
 
 
 const MainContent = () => {
   const lists = useSelector(selectLists);
   const dispatch = useDispatch();
   const tasks = useSelector(state => state.tasks);
+  const [isAddingTask, setIsAddingTask] = useState(false);
+  const [taskName, setTaskName] = useState('');
+  const taskNameRef = useRef(null);
 
   return (
     <main className="flex-1 p-4 overflow-x-auto flex items-center gap-4 ">
         {lists.lists.map(list => (
             lists.activeList.id.includes(list.id) &&
-            <div key={list.id} className="m-auto w-full min-w-128  max-w-192 h-full bg-white flex flex-col">
-                <div className="py-2 px-4 border-b border-gray-300 flex items-center justify-between">
-                    <h1>{list.name}</h1>
-                    <button
-                        onClick={() => dispatch(deleteList({ id: list.id }))}
-                        className="p-1 rounded hover:bg-gray-200 "
-                    >
-                        Меню
-                        </button>
-                </div>
-                <button className="p-2 m-2 bg-gray-100 rounded hover:bg-gray-200 ">
-                Добавить задачу
-                </button>
-                <div className="p-4 overflow-y-auto">
-                    <ul>
-                        {tasks[0].tasks.filter(task => task.listID === list.id).map(task => (
-                            <li key={task.id}>{task.name}</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-
+            <ListTasks key={list.id} list={list} />
         ))}
        
     </main>
