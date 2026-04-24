@@ -1,23 +1,23 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { addList, deleteList } from "../store/listsSlice";
 import { addTask } from "../store/tasksSlice";
 import TaskCard from "./TaskCard";
 
 const ListTasks = ({ list }) => {
-  const lists = useSelector(state => state.lists);
+  const lists = useSelector((state) => state.lists);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks);
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
-  const taskNameRef = useRef(null);
+  const [isCompletedOpen, setIsCompletedOpen] = useState(false);
 
   return (
     <div
       key={list.id}
-      className="m-auto w-full min-w-98  max-w-192 h-full bg-white flex flex-col"
+      className="mx-auto w-full min-w-98 max-w-192 h-fit bg-white flex flex-col rounded-lg shadow-md"
     >
-      <div className="py-2 px-4 border-b border-gray-300 flex items-center justify-between">
+      <div className="py-2 px-4 border-b border-gray-300 flex items-start justify-between">
         <h1>{list.name}</h1>
         <button
           onClick={() => dispatch(deleteList({ id: list.id }))}
@@ -52,11 +52,29 @@ const ListTasks = ({ list }) => {
             </li>
           )}
           {tasks[0].tasks
-            .filter((task) => task.listID === list.id)
+            .filter((task) => task.listID === list.id && !task.isCompleted)
             .map((task) => (
               <TaskCard key={task.id} task={task} />
             ))}
         </ul>
+        <div className="flex items-center justify-between">
+          <span>Выполненные задачи</span>
+          <button
+            onClick={() => setIsCompletedOpen(!isCompletedOpen)}
+            className="p-1 rounded hover:bg-gray-200 "
+          >
+            {isCompletedOpen ? "▲" : "▼"}
+          </button>
+        </div>
+        {isCompletedOpen && (
+          <ul>
+            {tasks[0].tasks
+              .filter((task) => task.listID === list.id && task.isCompleted)
+              .map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+          </ul>
+        )}
       </div>
     </div>
   );

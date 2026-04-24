@@ -75,7 +75,7 @@ const ListMenu = () => {
             if (!isMenuOpen) setIsMenuOpen(true);
             setIsAddingList(true)
         }}
-        className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-300"
+        className="bg-gray-200 mt-2 py-2 px-4 rounded hover:bg-gray-300"
       >
         Добавить список
       </button>

@@ -3,24 +3,12 @@ import { useState } from "react";
 import { addList } from "../store/listsSlice";
 import { toggleCheckboxList } from "../store/listsSlice";
 import ListMenu from "./ListMenu";
+import VisibleMenu from "./VisibleMenu";
 
 const Sidebar = ({ isOpenSidebar }) => {
   const lists = useSelector(state => state.lists);
   const dispatch = useDispatch();
   
-
-  const VisibleMenu = () => {
-    return (
-      <div className="flex flex-col gap-2 mt-8">
-        <button className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300">
-          <div className="flex items-center gap-2">Все задачи</div>
-        </button>
-        <button className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300">
-          <div className="flex items-center gap-2">Помеченные</div>
-        </button>
-      </div>
-    );
-  };
 
   return (
     <aside

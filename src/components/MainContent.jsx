@@ -14,7 +14,7 @@ const MainContent = () => {
   const taskNameRef = useRef(null);
 
   return (
-    <main className="flex-1 p-4 overflow-x-auto flex items-center gap-4 ">
+    <main className="flex-1 p-4 overflow-x-auto flex gap-4 ">
         {lists.lists.map(list => (
             lists.activeList.id.includes(list.id) &&
             <ListTasks key={list.id} list={list} />

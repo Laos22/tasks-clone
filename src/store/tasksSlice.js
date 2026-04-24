@@ -14,6 +14,8 @@ const tasksSlice = createSlice({
             }
             const newTask = {
                 id: crypto.randomUUID(),
+                isFavorite: false,
+                isCompleted: false,
                 ...action.payload,
             };
             state[0].tasks.push(newTask);
@@ -21,9 +23,21 @@ const tasksSlice = createSlice({
         deleteTask: (state, action) => {
             state[0].tasks = state[0].tasks.filter(task => task.id !== action.payload.id);
         },
+        toggleTaskFavorite: (state, action) => {
+            const task = state[0].tasks.find(task => task.id === action.payload);
+            if (task) {
+                task.isFavorite = !task.isFavorite;
+            }
+        },
+        toggleTaskCompleted: (state, action) => {
+            const task = state[0].tasks.find(task => task.id === action.payload);
+            if (task) {
+                task.isCompleted = !task.isCompleted;
+            }
+        }
     }
 });
 
-export const { addTask, deleteTask } = tasksSlice.actions;         
+export const { addTask, deleteTask, toggleTaskFavorite, toggleTaskCompleted} = tasksSlice.actions;         
 
 export default tasksSlice.reducer;
