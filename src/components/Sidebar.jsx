@@ -1,15 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { addList } from "../store/listsSlice";
-import { toggleCheckboxList } from "../store/listsSlice";
+import { addList, toggleCheckboxList } from "../store/listsSlice";
 import ListMenu from "./ListMenu";
 import VisibleMenu from "./VisibleMenu";
 
-const Sidebar = ({ isOpenSidebar }) => {
+const Sidebar = () => {
+  const isOpenSidebar = useSelector(state => state.ui.isSidebarOpen);
   const lists = useSelector(state => state.lists);
   const dispatch = useDispatch();
   
-
   return (
     <aside
       className={`bg-gray-100 border-r border-gray-300 overflow-y-auto ${isOpenSidebar ? "w-64 p-4" : "w-0"}`}

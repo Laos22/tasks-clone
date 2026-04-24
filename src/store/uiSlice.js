@@ -1,9 +1,11 @@
-import { createSlice } from '@redux/plugin-reg'; // или '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+
+const savedUI = localStorage.getItem('ui');
 
 const initialState = {
-  isSidebarOpen: true,
-  isFavoritesVisible: true,
-  isListMenuOpen: false,
+  isSidebarOpen: savedUI ? JSON.parse(savedUI).isSidebarOpen : true,
+  isFavoritesVisible: savedUI ? JSON.parse(savedUI).isFavoritesVisible : true,
+  isListMenuOpen: savedUI ? JSON.parse(savedUI).isListMenuOpen : true,
 };
 
 const uiSlice = createSlice({
@@ -12,9 +14,6 @@ const uiSlice = createSlice({
   reducers: {
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
-    },
-    setSidebarOpen: (state, action) => {
-      state.isSidebarOpen = action.payload;
     },
     toggleFavoritesVisible: (state) => {
       state.isFavoritesVisible = !state.isFavoritesVisible;

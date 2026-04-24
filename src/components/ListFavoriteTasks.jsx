@@ -1,27 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { addList, deleteList } from "../store/listsSlice";
 import { addTask } from "../store/tasksSlice";
 import TaskCard from "./TaskCard";
 
-const ListTasks = ({ list }) => {
-  const lists = useSelector((state) => state.lists);
-  const dispatch = useDispatch();
-  const tasks = useSelector((state) => state.tasks);
-  const [isAddingTask, setIsAddingTask] = useState(false);
-  const [taskName, setTaskName] = useState("");
-  const [isCompletedOpen, setIsCompletedOpen] = useState(false);
-  const isFavoritesVisible = useSelector((state) => state.ui.isFavoritesVisible);
 
-  return (
+const ListFavoriteTasks = () => {
+    const tasks = useSelector(state => state.tasks);
+    const dispatch = useDispatch();
+    const [isAddingTask, setIsAddingTask] = useState(false);
+    const [taskName, setTaskName] = useState('');
+    const isFavoritesVisible = useSelector(state => state.ui.isFavoritesVisible);
+    const [isCompletedOpen, setIsCompletedOpen] = useState(false);
+    
+    return (
     <div
-      key={list.id}
       className="mx-auto w-full min-w-98 max-w-192 h-fit bg-white flex flex-col rounded-lg shadow-md"
     >
       <div className="py-2 px-4 border-b border-gray-300 flex items-start justify-between">
-        <h1>{list.name}</h1>
+        <h1>Помеченные задачи</h1>
         <button
-          onClick={() => dispatch(deleteList({ id: list.id }))}
+        //   onClick={() => dispatch(deleteList({ id: list.id }))}
           className="p-1 rounded hover:bg-gray-200 "
         >
           Меню
@@ -41,7 +39,6 @@ const ListTasks = ({ list }) => {
                 type="text"
                 value={taskName}
                 placeholder="Название задачи"
-                ref={taskNameRef}
                 autoFocus
                 onChange={(e) => setTaskName(e.target.value)}
                 onBlur={() => {
@@ -53,7 +50,7 @@ const ListTasks = ({ list }) => {
             </li>
           )}
           {tasks[0].tasks
-            .filter((task) => task.listID === list.id && !task.isCompleted)
+            .filter((task) => task.isFavorite === true)
             .map((task) => (
               <TaskCard key={task.id} task={task} />
             ))}
@@ -70,7 +67,7 @@ const ListTasks = ({ list }) => {
         {isCompletedOpen && (
           <ul>
             {tasks[0].tasks
-              .filter((task) => task.listID === list.id && task.isCompleted)
+              .filter((task) => task.isFavorite === true && task.isCompleted)
               .map((task) => (
                 <TaskCard key={task.id} task={task} />
               ))}
@@ -81,4 +78,5 @@ const ListTasks = ({ list }) => {
   );
 };
 
-export default ListTasks;
+export default ListFavoriteTasks;
+

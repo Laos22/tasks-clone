@@ -1,19 +1,20 @@
 import { toggleCheckboxList, addList } from "../store/listsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
+import { toggleListMenu } from "../store/uiSlice";
 
 const ListMenu = () => {
   const lists = useSelector(state => state.lists);
   const dispatch = useDispatch();
   const [isAddingList, setIsAddingList] = useState(false);
   const [listName, setListName] = useState("");
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const isMenuOpen = useSelector(state => state.ui.isListMenuOpen);
 
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="m-2 text-xl">Списки</h2>
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button onClick={() => dispatch(toggleListMenu())}>
           {isMenuOpen ? "▲" : "▼"}
         </button>
       </div>
@@ -72,7 +73,7 @@ const ListMenu = () => {
       </div>
       <button
         onClick={() => {
-            if (!isMenuOpen) setIsMenuOpen(true);
+            if (!isMenuOpen) dispatch(toggleListMenu());
             setIsAddingList(true)
         }}
         className="bg-gray-200 mt-2 py-2 px-4 rounded hover:bg-gray-300"
