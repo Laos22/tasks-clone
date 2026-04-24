@@ -50,7 +50,7 @@ const ListFavoriteTasks = () => {
             </li>
           )}
           {tasks[0].tasks
-            .filter((task) => task.isFavorite === true)
+            .filter((task) => task.isFavorite === true && !task.isCompleted)
             .map((task) => (
               <TaskCard key={task.id} task={task} />
             ))}
