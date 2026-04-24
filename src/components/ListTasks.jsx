@@ -11,21 +11,67 @@ const ListTasks = ({ list }) => {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [isCompletedOpen, setIsCompletedOpen] = useState(false);
-  const isFavoritesVisible = useSelector((state) => state.ui.isFavoritesVisible);
+  const isFavoritesVisible = useSelector(
+    (state) => state.ui.isFavoritesVisible,
+  );
+  const [isListMenuOpen, setIsListMenuOpen] = useState(false);
+
+  const openListMenu = () => {
+    alert(
+      "нужно сделать меню с настройками отображения и кнопкой удаления списка",
+    );
+  };
 
   return (
     <div
       key={list.id}
       className="mx-auto w-full min-w-98 max-w-192 h-fit bg-white flex flex-col rounded-lg shadow-md"
     >
-      <div className="py-2 px-4 border-b border-gray-300 flex items-start justify-between">
+      <div className="py-2 px-4 border-b border-gray-300 flex items-start justify-between relative">
         <h1>{list.name}</h1>
         <button
-          onClick={() => dispatch(deleteList({ id: list.id }))}
-          className="p-1 rounded hover:bg-gray-200 "
+          // onClick={() => dispatch(deleteList({ id: list.id }))}
+          onClick={() => setIsListMenuOpen(!isListMenuOpen)}
+          className="p-1 rounded-full hover:bg-gray-200"
         >
-          Меню
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className={`w-5 h-5 transition-transform duration-300`}
+          >
+            <path
+              fillRule="evenodd"
+              d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+              clipRule="evenodd"
+            />
+          </svg>
         </button>
+        {isListMenuOpen && (
+          <div
+            onClick={(e) => {
+              console.log(e.target);
+              // заблокировать скролл при открытом меню и клик по фону закрывает меню
+
+            }}
+            className="w-64 absolute flex flex-col right-2 top-10 bg-white border rounded-sm shadow-md z-10 p-2"
+          >
+            <ul>
+              <li>
+                <button className="w-full hover:bg-gray-200 text-left">
+                  Переименовать
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => dispatch(deleteList({ id: list.id }))}
+                  className="w-full hover:bg-gray-200 text-left">
+                  Удалить список
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
       <button
         onClick={() => setIsAddingTask(true)}
