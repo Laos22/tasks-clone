@@ -4,7 +4,7 @@ const savedUI = localStorage.getItem('ui');
 
 const initialState = {
   isSidebarOpen: savedUI ? JSON.parse(savedUI).isSidebarOpen : true,
-  isFavoritesVisible: savedUI ? JSON.parse(savedUI).isFavoritesVisible : true,
+  isFavoritesVisible: savedUI ? JSON.parse(savedUI).isFavoritesVisible : false,
   isListMenuOpen: savedUI ? JSON.parse(savedUI).isListMenuOpen : true,
 };
 

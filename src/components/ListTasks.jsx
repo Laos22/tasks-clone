@@ -48,6 +48,14 @@ const ListTasks = ({ list }) => {
                   setIsAddingTask(false);
                   setTaskName("");
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    dispatch(addTask({ name: taskName, listID: list.id }));
+                    setIsAddingTask(false);
+                    setTaskName("");
+                  }
+                }}
+                className="w-full p-2 border rounded"
               />
             </li>
           )}
