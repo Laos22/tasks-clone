@@ -41,7 +41,6 @@ const ListTasks = ({ list }) => {
                 type="text"
                 value={taskName}
                 placeholder="Название задачи"
-                ref={taskNameRef}
                 autoFocus
                 onChange={(e) => setTaskName(e.target.value)}
                 onBlur={() => {
