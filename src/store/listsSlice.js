@@ -45,6 +45,5 @@ const listsSlice = createSlice({
     }
 })
 
-export const selectLists = state => state.lists;
 export const { toggleCheckboxList, addList, deleteList } = listsSlice.actions;         
 export default listsSlice.reducer;

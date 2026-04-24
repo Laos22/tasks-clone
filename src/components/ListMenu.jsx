@@ -1,14 +1,13 @@
-import { toggleCheckboxList, addList, selectLists } from "../store/listsSlice";
+import { toggleCheckboxList, addList } from "../store/listsSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 const ListMenu = () => {
-  const lists = useSelector(selectLists);
+  const lists = useSelector(state => state.lists);
   const dispatch = useDispatch();
   const [isAddingList, setIsAddingList] = useState(false);
   const [listName, setListName] = useState("");
-  const listNameRef = useRef(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   return (
     <div className="mt-6">
@@ -18,8 +17,14 @@ const ListMenu = () => {
           {isMenuOpen ? "▲" : "▼"}
         </button>
       </div>
-      <div>
-        <div>
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          isMenuOpen
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
           {isMenuOpen ? (
             <ul>
               {lists.lists.map((list) => (
@@ -51,7 +56,6 @@ const ListMenu = () => {
                     type="text"
                     value={listName}
                     placeholder="Название списка"
-                    ref={listNameRef}
                     autoFocus
                     onChange={(e) => setListName(e.target.value)}
                     onBlur={() => {
@@ -67,8 +71,11 @@ const ListMenu = () => {
         </div>
       </div>
       <button
-        onClick={() => setIsAddingList(true)}
-        className="bg-green-500 text-white m-2 py-2 px-4 rounded hover:bg-green-600"
+        onClick={() => {
+            if (!isMenuOpen) setIsMenuOpen(true);
+            setIsAddingList(true)
+        }}
+        className="bg-gray-200 py-2 px-4 rounded hover:bg-gray-300"
       >
         Добавить список
       </button>

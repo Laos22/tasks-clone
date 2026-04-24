@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useRef } from "react";
-import { selectLists, addList, deleteList } from "../store/listsSlice";
-import { selectTasks, addTask } from "../store/tasksSlice";
+import { addList, deleteList } from "../store/listsSlice";
+import { addTask } from "../store/tasksSlice";
 import TaskCard from "./TaskCard";
 
 const ListTasks = ({ list }) => {
-  const lists = useSelector(selectLists);
+  const lists = useSelector(state => state.lists);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks);
   const [isAddingTask, setIsAddingTask] = useState(false);
