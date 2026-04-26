@@ -9,7 +9,7 @@ const ListTasks = ({ list }) => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks);
   const [isAddingTask, setIsAddingTask] = useState(false);
-  const [taskName, setTaskName] = useState("");
+  const [task, setTask] = useState({ name: "", description: "", date: "" });
   const [isCompletedOpen, setIsCompletedOpen] = useState(false);
   const isFavoritesVisible = useSelector(
     (state) => state.ui.isFavoritesVisible,
@@ -43,7 +43,7 @@ const ListTasks = ({ list }) => {
   return (
     <div
       key={list.id}
-      className="mx-auto w-full min-w-98 max-w-192 h-fit bg-white flex flex-col rounded-lg shadow-md"
+      className="mx-auto w-full min-w-98 max-w-192 h-fit border border-gray-300 bg-white flex flex-col rounded-lg shadow-md hover:shadow-[8px_0px_10px_-2px_rgba(0,0,0,0.2)] transition-shadow duration-300"
     >
       <div className="py-2 px-4 border-b border-gray-300 flex items-start justify-between relative">
         <h1>{list.name}</h1>
@@ -88,9 +88,12 @@ const ListTasks = ({ list }) => {
                 </ul>
               </div>
 
-              <button 
-                onClick={() => alert("нужно сделать возможность переименовывать список")}
-                className="w-full hover:bg-gray-200 text-left p-2 rounded-full">
+              <button
+                onClick={() =>
+                  alert("нужно сделать возможность переименовывать список")
+                }
+                className="w-full hover:bg-gray-200 text-left p-2 rounded-full"
+              >
                 Переименовать
               </button>
               <button
@@ -100,13 +103,17 @@ const ListTasks = ({ list }) => {
                 Удалить список
               </button>
               <button
-                onClick={() => alert("нужно сделать возможность очищать список")}
+                onClick={() =>
+                  alert("нужно сделать возможность очищать список")
+                }
                 className="w-full hover:bg-gray-200 text-left p-2 rounded-full"
               >
                 Очистить список
               </button>
               <button
-                onClick={() => alert("нужно удалить все выполненные задачи из этого списка")}
+                onClick={() =>
+                  alert("нужно удалить все выполненные задачи из этого списка")
+                }
                 className="w-full hover:bg-gray-200 text-left p-2 rounded-full"
               >
                 Удалить все выполненные задачи
@@ -121,34 +128,100 @@ const ListTasks = ({ list }) => {
       >
         Добавить задачу
       </button>
-      <div
-        className={`p-4 ${
-          isListMenuOpen ? "overflow-hidden" : "overflow-y-auto"
-        }`}
-      >
+      <div className={isListMenuOpen ? "overflow-hidden" : "overflow-y-auto"}>
         <ul>
           {isAddingTask && (
             <li>
-              <input
-                type="text"
-                value={taskName}
-                placeholder="Название задачи"
-                autoFocus
-                onChange={(e) => setTaskName(e.target.value)}
-                onBlur={() => {
-                  dispatch(addTask({ name: taskName, listID: list.id }));
-                  setIsAddingTask(false);
-                  setTaskName("");
+              <div
+                className="p-4 bg-gray-100 rounded flex flex-col gap-2"
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget)) {
+                    dispatch(
+                      addTask({
+                        name: task.name,
+                        description: task.description,
+                        listID: list.id,
+                        date: task.date,
+                      }),
+                    );
+                    setIsAddingTask(false);
+                    setTask({ name: "", description: "", date: "" });
+                  }
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    dispatch(addTask({ name: taskName, listID: list.id }));
+                    dispatch(
+                      addTask({
+                        name: task.name,
+                        description: task.description,
+                        listID: list.id,
+                        date: task.date,
+                      }),
+                    );
                     setIsAddingTask(false);
-                    setTaskName("");
+                    setTask({ name: "", description: "", date: "" });
                   }
                 }}
-                className="w-full p-2 border rounded"
-              />
+              >
+                <input
+                  type="text"
+                  value={task.name}
+                  placeholder="Название задачи"
+                  autoFocus
+                  onChange={(e) => setTask({ ...task, name: e.target.value })}
+                  className="w-full p-2 border rounded bg-white"
+                />
+                <input
+                  type="textarea"
+                  value={task.description}
+                  placeholder="Дополнительная информация"
+                  onChange={(e) =>
+                    setTask({ ...task, description: e.target.value })
+                  }
+                  className="w-full p-2 border rounded bg-white"
+                />
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const today = new Date().toISOString().split("T")[0];
+                      setTask({ ...task, date: today });
+                    }}
+                    className={`px-3 py-1 text-xs border rounded-full transition-colors ${
+                      task.date === new Date().toISOString().split("T")[0]
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    Сегодня
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const tomorrow = new Date();
+                      tomorrow.setDate(tomorrow.getDate() + 1);
+                      const dateStr = tomorrow.toISOString().split("T")[0];
+                      setTask({ ...task, date: dateStr });
+                    }}
+                    className={`px-3 py-1 text-xs border rounded-full transition-colors ${
+                      task.date ===
+                      new Date(Date.now() + 86400000)
+                        .toISOString()
+                        .split("T")[0]
+                        ? "bg-blue-500 text-white border-blue-500"
+                        : "bg-white text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    Завтра
+                  </button>
+                  <input
+                    type="date"
+                    value={task.date}
+                    onChange={(e) => setTask({ ...task, date: e.target.value })}
+                    className="text-xs p-1 border rounded bg-white text-gray-600 outline-none cursor-pointer hover:bg-gray-50"
+                  />
+                </div>
+              </div>
             </li>
           )}
           {tasks[0].tasks
@@ -157,7 +230,7 @@ const ListTasks = ({ list }) => {
               <TaskCard key={task.id} task={task} />
             ))}
         </ul>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between px-4 py-2">
           <span>Выполненные задачи</span>
           <button
             onClick={() => setIsCompletedOpen(!isCompletedOpen)}
