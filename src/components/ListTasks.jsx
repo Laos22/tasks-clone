@@ -74,23 +74,43 @@ const ListTasks = ({ list }) => {
             {/* Само меню */}
             <div
               ref={listMenuRef}
-              className="w-64 absolute flex flex-col right-2 top-10 bg-white border rounded-sm shadow-md z-20 p-2"
+              className="w-78 absolute flex flex-col right-2 top-10 bg-white border rounded-sm shadow-md z-20 p-2"
             >
-              <ul>
-                <li>
-                  <button className="w-full hover:bg-gray-200 text-left">
-                    Переименовать
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => dispatch(deleteList({ id: list.id }))}
-                    className="w-full hover:bg-gray-200 text-left"
-                  >
-                    Удалить список
-                  </button>
-                </li>
-              </ul>
+              <div className="mb-2 border-b border-gray-300">
+                <span className="text-xl">Сортировка по</span>
+                <ul>
+                  <li className="p-2 hover:bg-gray-200 rounded cursor-pointer">
+                    Названию
+                  </li>
+                  <li className="p-2 hover:bg-gray-200 rounded cursor-pointer">
+                    Времени исполнения
+                  </li>
+                </ul>
+              </div>
+
+              <button 
+                onClick={() => alert("нужно сделать возможность переименовывать список")}
+                className="w-full hover:bg-gray-200 text-left p-2 rounded-full">
+                Переименовать
+              </button>
+              <button
+                onClick={() => dispatch(deleteList({ id: list.id }))}
+                className="w-full hover:bg-gray-200 text-left p-2 rounded-full text-red-500"
+              >
+                Удалить список
+              </button>
+              <button
+                onClick={() => alert("нужно сделать возможность очищать список")}
+                className="w-full hover:bg-gray-200 text-left p-2 rounded-full"
+              >
+                Очистить список
+              </button>
+              <button
+                onClick={() => alert("нужно удалить все выполненные задачи из этого списка")}
+                className="w-full hover:bg-gray-200 text-left p-2 rounded-full"
+              >
+                Удалить все выполненные задачи
+              </button>
             </div>
           </>
         )}
