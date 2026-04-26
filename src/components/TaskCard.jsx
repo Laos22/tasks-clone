@@ -44,7 +44,9 @@ const TaskCard = ({ task }) => {
         </div>
         <div className="flex items-center hover:bg-gray-100 rounded p-1 gap-2">
           <button
-            onClick={() => dispatch(deleteTask({ id: task.id }))}
+            onClick={() => {
+              confirm("Вы уверены, что хотите удалить эту задачу?") &&
+              dispatch(deleteTask({ id: task.id }))}}
             className="p-1 rounded-full hover:bg-gray-200 invisible group-hover:visible"
           >
             <svg
