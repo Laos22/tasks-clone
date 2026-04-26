@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { addList, deleteList } from "../store/listsSlice";
 import { addTask } from "../store/tasksSlice";
 import TaskCard from "./TaskCard";
@@ -15,6 +15,24 @@ const ListTasks = ({ list }) => {
     (state) => state.ui.isFavoritesVisible,
   );
   const [isListMenuOpen, setIsListMenuOpen] = useState(false);
+  const listMenuRef = useRef(null);
+
+  useEffect(() => {
+    if (!isListMenuOpen) return;
+
+    const handKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsListMenuOpen(false);
+      }
+    };
+    document.addEventListener("keydown", handKeyDown);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isListMenuOpen]);
 
   const openListMenu = () => {
     alert(
@@ -30,7 +48,6 @@ const ListTasks = ({ list }) => {
       <div className="py-2 px-4 border-b border-gray-300 flex items-start justify-between relative">
         <h1>{list.name}</h1>
         <button
-          // onClick={() => dispatch(deleteList({ id: list.id }))}
           onClick={() => setIsListMenuOpen(!isListMenuOpen)}
           className="p-1 rounded-full hover:bg-gray-200"
         >
@@ -48,29 +65,34 @@ const ListTasks = ({ list }) => {
           </svg>
         </button>
         {isListMenuOpen && (
-          <div
-            onClick={(e) => {
-              console.log(e.target);
-              // заблокировать скролл при открытом меню и клик по фону закрывает меню
-
-            }}
-            className="w-64 absolute flex flex-col right-2 top-10 bg-white border rounded-sm shadow-md z-10 p-2"
-          >
-            <ul>
-              <li>
-                <button className="w-full hover:bg-gray-200 text-left">
-                  Переименовать
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => dispatch(deleteList({ id: list.id }))}
-                  className="w-full hover:bg-gray-200 text-left">
-                  Удалить список
-                </button>
-              </li>
-            </ul>
-          </div>
+          <>
+            {/* Прозрачная подложка на весь экран */}
+            <div
+              className="fixed inset-0 z-10 cursor-default"
+              onClick={() => setIsListMenuOpen(false)}
+            />
+            {/* Само меню */}
+            <div
+              ref={listMenuRef}
+              className="w-64 absolute flex flex-col right-2 top-10 bg-white border rounded-sm shadow-md z-20 p-2"
+            >
+              <ul>
+                <li>
+                  <button className="w-full hover:bg-gray-200 text-left">
+                    Переименовать
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => dispatch(deleteList({ id: list.id }))}
+                    className="w-full hover:bg-gray-200 text-left"
+                  >
+                    Удалить список
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </>
         )}
       </div>
       <button
@@ -79,7 +101,11 @@ const ListTasks = ({ list }) => {
       >
         Добавить задачу
       </button>
-      <div className="p-4 overflow-y-auto">
+      <div
+        className={`p-4 ${
+          isListMenuOpen ? "overflow-hidden" : "overflow-y-auto"
+        }`}
+      >
         <ul>
           {isAddingTask && (
             <li>
