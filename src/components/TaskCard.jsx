@@ -20,7 +20,9 @@ const TaskCard = ({ task }) => {
           checked={task.isCompleted}
           onChange={() => dispatch(toggleTaskCompleted(task.id))}
         />
-        <span className="flex-1">{task.name}</span>
+        <span className={`flex-1 ${task.isCompleted ? "line-through text-gray-500" : ""}`}>
+          {task.name}
+        </span>
         <button
           onClick={() => dispatch(deleteTask({ id: task.id }))}
           className="p-1 rounded-full hover:bg-gray-200 invisible group-hover:visible"
