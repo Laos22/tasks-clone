@@ -52,6 +52,7 @@ const ListMenu = () => {
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (listName.trim() !== "") {
+                        console.log("Добавляем список:", listName);
                         dispatch(addList({ name: listName }));
                         setIsAddingList(false);
                         setListName("");
@@ -70,6 +71,13 @@ const ListMenu = () => {
                       placeholder="Название списка"
                       autoFocus
                       onChange={(e) => setListName(e.target.value)}
+                      onBlur={() => {
+                        if (listName.trim() !== "") {
+                          dispatch(addList({ name: listName }));
+                          setIsAddingList(false);
+                          setListName("");
+                        }
+                      }}
                     />
                   </form>
                 </li>
