@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar"
 import { useSelector } from "react-redux"
 
 function App() {
+  // localStorage.clear();
   return (
     <div className="h-dvh w-dvw bg-gray-100 flex flex-col">
       <Header/>

@@ -1,6 +1,6 @@
 import { toggleCheckboxList, addList } from "../store/listsSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toggleListMenu } from "../store/uiSlice";
 
 const ListMenu = () => {
@@ -9,6 +9,7 @@ const ListMenu = () => {
   const [isAddingList, setIsAddingList] = useState(false);
   const [listName, setListName] = useState("");
   const isMenuOpen = useSelector(state => state.ui.isListMenuOpen);
+
 
   return (
     <div className="mt-6">
@@ -63,6 +64,13 @@ const ListMenu = () => {
                       dispatch(addList({ name: listName }));
                       setIsAddingList(false);
                       setListName("");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && listName.trim() !== "") {
+                        dispatch(addList({ name: listName }));
+                        setIsAddingList(false);
+                        setListName("");
+                      }
                     }}
                   />
                 </li>

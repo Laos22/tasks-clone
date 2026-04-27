@@ -224,7 +224,7 @@ const ListTasks = ({ list }) => {
               </div>
             </li>
           )}
-          {tasks[0].tasks
+          {tasks[0]?.tasks
             .filter((task) => task.listID === list.id && !task.isCompleted)
             .map((task) => (
               <TaskCard key={task.id} task={task} />
@@ -241,7 +241,7 @@ const ListTasks = ({ list }) => {
         </div>
         {isCompletedOpen && (
           <ul>
-            {tasks[0].tasks
+            {tasks[0]?.tasks
               .filter((task) => task.listID === list.id && task.isCompleted)
               .map((task) => (
                 <TaskCard key={task.id} task={task} />

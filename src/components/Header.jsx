@@ -20,7 +20,7 @@ const Header = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.633h16.5M3.75 12h16.5m-16.5 5.367h16.5" />
                 </svg>
             </button>
-            <h1>My App ver: 1.0.1</h1>
+            <h1>My App ver: 1.0.3</h1>
         </div>
         <div>
             Профиль

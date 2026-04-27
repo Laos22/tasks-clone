@@ -40,7 +40,7 @@ const listsSlice = createSlice({
         deleteList: (state, action) => {
             state.lists = state.lists.filter(list => list.id !== action.payload.id);
             state.activeList.id = state.activeList.id.filter(id => id !== action.payload.id);
-            state.tasks = state.tasks.filter(task => task.listId !== action.payload.id);
+            state.tasks = state.tasks?.tasks.filter(task => task.listId !== action.payload.id);
         },
 
     }
