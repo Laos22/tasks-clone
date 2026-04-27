@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import { toggleListMenu } from "../store/uiSlice";
 
 const ListMenu = () => {
-  const lists = useSelector(state => state.lists);
+  const lists = useSelector((state) => state.lists);
   const dispatch = useDispatch();
   const [isAddingList, setIsAddingList] = useState(false);
   const [listName, setListName] = useState("");
-  const isMenuOpen = useSelector(state => state.ui.isListMenuOpen);
-
+  const isMenuOpen = useSelector((state) => state.ui.isListMenuOpen);
 
   return (
     <div className="mt-6">
@@ -48,31 +47,31 @@ const ListMenu = () => {
               ))}
               {isAddingList && (
                 <li className="flex items-center gap-2 p-2">
-                  <input
-                    type="checkbox"
-                    className="m-2"
-                    readOnly
-                    checked={true}
-                  />
-                  <input
-                    type="text"
-                    value={listName}
-                    placeholder="Название списка"
-                    autoFocus
-                    onChange={(e) => setListName(e.target.value)}
-                    onBlur={() => {
-                      dispatch(addList({ name: listName }));
-                      setIsAddingList(false);
-                      setListName("");
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && listName.trim() !== "") {
+                  <form
+                    className="flex items-center gap-2 w-full"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (listName.trim() !== "") {
                         dispatch(addList({ name: listName }));
                         setIsAddingList(false);
                         setListName("");
                       }
                     }}
-                  />
+                  >
+                    <input
+                      type="checkbox"
+                      className="m-2"
+                      readOnly
+                      checked={true}
+                    />
+                    <input
+                      type="text"
+                      value={listName}
+                      placeholder="Название списка"
+                      autoFocus
+                      onChange={(e) => setListName(e.target.value)}
+                    />
+                  </form>
                 </li>
               )}
             </ul>
@@ -81,8 +80,8 @@ const ListMenu = () => {
       </div>
       <button
         onClick={() => {
-            if (!isMenuOpen) dispatch(toggleListMenu());
-            setIsAddingList(true)
+          if (!isMenuOpen) dispatch(toggleListMenu());
+          setIsAddingList(true);
         }}
         className="bg-gray-200 mt-2 py-2 px-4 rounded hover:bg-gray-300"
       >

@@ -34,9 +34,10 @@ const TaskCard = ({ task }) => {
           </div>
           {task.date && (
             <div className="text-xs text-gray-400">
-              <button 
-              className="px-2 py-1 rounded-full text-xs border transition-colors bg-white text-gray-600 hover:bg-gray-200"
-              onClick={() => alert("нужно добавить возможность менят дату")}>
+              <button
+                className="px-2 py-1 rounded-full text-xs border transition-colors bg-white text-gray-600 hover:bg-gray-200"
+                onClick={() => alert("нужно добавить возможность менят дату")}
+              >
                 {new Date(task.date).toLocaleDateString()}
               </button>
             </div>
@@ -46,8 +47,9 @@ const TaskCard = ({ task }) => {
           <button
             onClick={() => {
               confirm("Вы уверены, что хотите удалить эту задачу?") &&
-              dispatch(deleteTask({ id: task.id }))}}
-            className="p-1 rounded-full hover:bg-gray-200 invisible group-hover:visible"
+                dispatch(deleteTask({ id: task.id }));
+            }}
+            className="p-1 rounded-full hover:bg-gray-200 md:invisible md:group-hover:visible"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +65,7 @@ const TaskCard = ({ task }) => {
             </svg>
           </button>
           <button
-            className={`p-1 rounded-full hover:bg-gray-200 ${task.isFavorite ? "visible" : "invisible group-hover:visible"}`}
+            className={`p-1 rounded-full hover:bg-gray-200 ${task.isFavorite ? "visible" : "md:invisible md:group-hover:visible"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

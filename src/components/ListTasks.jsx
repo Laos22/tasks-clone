@@ -40,6 +40,7 @@ const ListTasks = ({ list }) => {
     );
   };
 
+  const blurTimeoutRef = useRef(null); // Добавляем ref для таймаута
   return (
     <div
       key={list.id}
@@ -132,24 +133,23 @@ const ListTasks = ({ list }) => {
         <ul>
           {isAddingTask && (
             <li>
-              <div
+              <form
                 className="p-4 bg-gray-100 rounded flex flex-col gap-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  dispatch(
+                    addTask({
+                      name: task.name,
+                      description: task.description,
+                      listID: list.id,
+                      date: task.date,
+                    }),
+                  );
+                  setIsAddingTask(false);
+                  setTask({ name: "", description: "", date: "" });
+                }}
                 onBlur={(e) => {
                   if (!e.currentTarget.contains(e.relatedTarget)) {
-                    dispatch(
-                      addTask({
-                        name: task.name,
-                        description: task.description,
-                        listID: list.id,
-                        date: task.date,
-                      }),
-                    );
-                    setIsAddingTask(false);
-                    setTask({ name: "", description: "", date: "" });
-                  }
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
                     dispatch(
                       addTask({
                         name: task.name,
@@ -183,6 +183,7 @@ const ListTasks = ({ list }) => {
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
+                    onMouseDown={() => clearTimeout(blurTimeoutRef.current)} // Отменяем таймаут при нажатии
                     onClick={() => {
                       const today = new Date().toISOString().split("T")[0];
                       setTask({ ...task, date: today });
@@ -197,6 +198,7 @@ const ListTasks = ({ list }) => {
                   </button>
                   <button
                     type="button"
+                    onMouseDown={() => clearTimeout(blurTimeoutRef.current)} // Отменяем таймаут при нажатии
                     onClick={() => {
                       const tomorrow = new Date();
                       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -216,12 +218,17 @@ const ListTasks = ({ list }) => {
                   </button>
                   <input
                     type="date"
+                    onMouseDown={() => clearTimeout(blurTimeoutRef.current)} // Отменяем таймаут при нажатии
                     value={task.date}
                     onChange={(e) => setTask({ ...task, date: e.target.value })}
                     className="text-xs p-1 border rounded bg-white text-gray-600 outline-none cursor-pointer hover:bg-gray-50"
                   />
                 </div>
-              </div>
+                <div className="flex justify-end">
+                  {/* Добавляем явную кнопку для сохранения задачи */}
+                  <button type="submit" onMouseDown={() => clearTimeout(blurTimeoutRef.current)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Добавить задачу</button>
+                </div>
+              </form>
             </li>
           )}
           {tasks[0]?.tasks
